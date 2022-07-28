@@ -1,0 +1,11 @@
+Model Information:
+* title:	Frog
+* source:	https://sketchfab.com/3d-models/frog-27f24a83aec1420281ac5c05c5d1fd53
+* author:	DVGorohov (https://sketchfab.com/DVGorohov)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Frog" (https://sketchfab.com/3d-models/frog-27f24a83aec1420281ac5c05c5d1fd53) by DVGorohov (https://sketchfab.com/DVGorohov) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

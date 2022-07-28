@@ -1,0 +1,149 @@
+<html>
+  <head>
+    <!-- aframe itself -->
+    <script src="https://aframe.io/releases/0.7.1/aframe.min.js"></script>
+    <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.13.1/dist/aframe-extras.min.js"></script>
+    <script scr="gltf-legacy.js"></script>
+  </head>
+  <body>
+    <script>
+      $ = (sel) => document.querySelector(sel);
+      $$ = (sel) => document.querySelectorAll(sel);
+      on = (elem, type, hand) => elem.addEventListener(type, hand);
+      const resetBall = () => {
+        clearTimeout(resetId);
+        $("#ball").body.position.set(0, 2, -3);
+        $("#ball").body.velocity.set(0, 5, 0);
+        $("#ball").body.angularVelocity.set(0, 0, 0);
+        hit = false;
+        resetId = setTimeout(resetBall, 6000);
+      };
+    </script>
+    <a-scene physics="debug:true">
+      <a-assets>
+        <a-asset-item id="frog" src="frog/scene.gltf"></a-asset-item>
+        <a-asset-item id="tree" src="tree/scene.gltf"></a-asset-item>
+        <a-asset-item id="rock" src="rock/scene.gltf"></a-asset-item>
+        <a-asset-item id="moon" src="moon/scene.gltf"></a-asset-item>
+        <a-asset-item id="cauldron" src="cauldron/scene.gltf"></a-asset-item>
+        <a-asset-item id="imp" src="imp/scene.gltf"></a-asset-item>
+        <a-asset-item id="staff" src="staff/scene.gltf"></a-asset-item>
+      </a-assets>
+      <a-entity camera look-controls position="0 1.5 0">
+        <a-text
+          id="score"
+          value="Score"
+          position="-0.2 -0.5 -1"
+          color="black"
+          width="5"
+          anchor="left"
+        ></a-text>
+        <a-cursor></a-cursor>
+        <a-entity
+          position="0 0 -3"
+          id="weapon"
+          rotation="0 0 0"
+          static-body="shape:sphere; sphereRadius: 0.3;"
+        >
+          <a-entity
+            id="staff-model"
+            gltf-model="#staff"
+            position="0 -0.6 0"
+            scale="0.005 0.005 0.005"
+          ></a-entity>
+        </a-entity>
+      </a-entity>
+      <a-entity id="ball" position="0 2 -3" dynamic-body>
+        <a-entity id="imp-model" gltf-model="#imp"></a-entity>
+      </a-entity>
+      <a-entity
+        id="cauldron-model"
+        gltf-model="#cauldron"
+        position="1.5 0 -3.5"
+      ></a-entity>
+      <a-entity
+        id="moon-model"
+        gltf-model="#moon"
+        position="1.5 10 -20"
+        scale="3 3 3"
+      ></a-entity>
+      <a-entity
+        id="rock-model"
+        gltf-model="#rock"
+        position="1.5 0 -6"
+        scale="5 7 5"
+      ></a-entity>
+      <a-entity
+        id="tree-model"
+        gltf-model="#tree"
+        position="6 0 -4"
+        scale="0.005 0.005 0.005"
+      ></a-entity>
+      <a-plane               
+        color="grey"
+        rotation="-90 0 0"
+        static-body
+        width="100"
+        height="100"
+      ></a-plane>
+    </a-scene>
+    <script>
+      let score = 0;
+      let hit = false;
+      let resetId = 0;
+      on($("#weapon"), "collide", (e) => {
+        const ball = $("#ball");
+        if (e.detail.body.id === ball.body.id && !hit) {
+          hit = true;
+          score = score + 1;
+          clearTimeout(resetId);
+          resetId = setTimeout(resetBall, 2000);
+          $("#score").setAttribute("text", "value", "Score " + score);
+        }
+      });
+
+      setTimeout(resetBall, 3000);
+      function randomRock() {
+        const el = document.createElement("a-entity");
+        el.setAttribute("gltf-model", "#rock");
+        el.setAttribute("position", {
+          x: Math.floor( Math.random()*30)-15,
+          y: Math.floor( Math.random()*1),
+          z: Math.floor( Math.random()*30)-15,
+        }); 
+        el.setAttribute("rotation", {
+          x: 0,
+          y: Math.floor( Math.random()*360),
+          z: 0,
+        });
+        const scale = Math.floor( Math.random()*5)
+        const scaleY = Math.floor( Math.random()*10)      
+        el.setAttribute("scale", { x: scaleY, y: scaleY, z: scale });
+        $("a-scene").appendChild(el);
+      }
+      for(i=1;i<25;i++){
+      randomRock()
+      }
+       function randomTree() {
+        const el = document.createElement("a-entity");
+        el.setAttribute("gltf-model", "#tree");
+        el.setAttribute("position", {
+          x: Math.floor( Math.random()*30)-15,
+          y: Math.floor( Math.random()*0),
+          z: Math.floor( Math.random()*30)-15,
+        }); 
+        el.setAttribute("rotation", {
+          x: 0,
+          y: Math.floor( Math.random()*360),
+          z: 0,
+        });
+        const scale = Math.floor( Math.random()*0.005)+0.01
+        el.setAttribute("scale", { x: scale, y: scale, z: scale });
+        $("a-scene").appendChild(el);
+      }
+      for(i=1;i<10;i++){
+      randomTree()
+      }
+    </script>
+  </body>
+</html>
